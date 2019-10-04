@@ -18,6 +18,8 @@ rm -rf /tmp/.X11-unix /tmp/.X${displayNumber}-lock ~/xvfb.pid
 echo "Starting Xvfb on display ${displayNumber}"
 start-stop-daemon --start --pidfile ~/xvfb.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :${displayNumber} -screen ${screenNumber} 1024x768x24  -ac +extension GLX +render -noreset
 
+sleep 1
+
 # Wait to be able to connect to the port. This will exit if it cannot in 15 minutes.
 timeout ${xvfbMaxStartWaitTime} bash -c "while  ! xdpyinfo -display :${displayNumber} >/dev/null; do sleep 0.5; done"
 if [ $? -ne 0 ]; then
